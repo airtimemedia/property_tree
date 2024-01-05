@@ -18,7 +18,6 @@ add_library(boost_property_tree INTERFACE)
 add_library(Boost::property_tree ALIAS boost_property_tree)
 
 target_include_directories(boost_property_tree INTERFACE include)
-
 if(BOOST_SUPERPROJECT_VERSION)
     #
     # Building as part of Boost superproject tree.
@@ -81,17 +80,36 @@ if(BOOST_PROPERTY_TREE_IN_BOOST_TREE)
     target_link_directories(boost_property_tree INTERFACE ${BOOST_ROOT}/stage/lib)
 
 else()
+    # cantina start
     #
     # Building out of Boost tree, out of Boost superproject tree, with Boost as dependency.
     # e.g. for packaging or added with add_subdirectory.
     #
-    find_package(Boost REQUIRED
-            #COMPONENTS container system
-            )
+    # find_package(Boost REQUIRED
+    #         #COMPONENTS container system
+    #         )
+    # target_link_libraries(boost_property_tree
+    #     INTERFACE
+    #         Boost::boost
+    # )
     target_link_libraries(boost_property_tree
-        INTERFACE
-            Boost::boost
+      INTERFACE
+        Boost::any
+        Boost::assert
+        Boost::bind
+        Boost::config
+        Boost::core
+        Boost::iterator
+        Boost::mpl
+        Boost::multi_index
+        Boost::optional
+        Boost::range
+        Boost::serialization
+        Boost::static_assert
+        Boost::throw_exception
+        Boost::type_traits
     )
+    #cantina end
 endif()
 
 if(BOOST_PROPERTY_TREE_BUILD_TESTS)
